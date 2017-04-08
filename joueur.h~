@@ -1,0 +1,18 @@
+#ifndef _RTC_PLAYER_BOU_AUBIN_KLEVH_
+#define _RTC_PLAYER_BOU_AUBIN_KLEVH_
+
+#include "SANDAL2/SANDAL2.h"
+
+#define P_WIDTH 50
+#define P_HEIGHT 50
+#define P_SPEED 10.f
+
+typedef struct{
+  int up;
+  int score;
+}Player;
+
+void action_player(ElementSDL2 * this);
+void click_player(ElementSDL2 * this,SDL_Keycode c);
+
+#endif
