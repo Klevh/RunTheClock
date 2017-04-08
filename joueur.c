@@ -34,8 +34,8 @@ void action_player(ElementSDL2 *this){
 	if(data->descente && data->time){
 	  data->time--;
 	}else{
-	  cs=cosf(-M_PI*(a-180)/180);
-	  sn=sinf(-M_PI*(a-180)/180);
+	  cs=cosf(M_PI*(a+90)/180);
+	  sn=sinf(M_PI*(a+90)/180);
 	  speed+=P_SPEED;
 	  moveElementSDL2(this,speed*cs,speed*sn);
 	  getCoordElementSDL2(this,NULL,&y);
