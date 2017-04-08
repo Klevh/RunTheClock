@@ -12,7 +12,7 @@ LDFLAGS=-lSDL2 -lSDL2_ttf -lSDL2_image -lm
 OSANDAL2=SANDAL2.o WindowSDL2.o ElementSDL2.o FontSDL2.o DisplayCode.o HitBox.o Sprite.o
 
 #add to this variables all the '.o' files for your program
-OFILES=main.o joueur.o
+OFILES=main.o joueur.o menu.o
 
 #add the LDFLAGS you need (such as -g or -O)
 LDFLAGS+=-g

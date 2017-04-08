@@ -5,8 +5,6 @@
 
 #define abs(a) (a<0?-a:a)
 
-#define JEU 1
-#define MENU 0
 #define RAYON 50
 #define WIDTH 600
 #define HEIGHT 600
@@ -34,5 +32,6 @@ void start_game(ElementSDL2 * this,SDL_Keycode c);
 int pointDansCercle(float x, float y, float xc, float yc, float rayon);
 int collisionCercleDroite(float xa, float ya, float xb, float yb, float xc, float yc, float rayon);
 int collisionCercleSegment(float xa, float ya, float xb, float yb, float xc, float yc, float rayon);
+
 
 #endif

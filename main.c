@@ -1,13 +1,11 @@
 #include "menu.h"
 
-#define JEU 1
-#define MENU 0
 #define A_WIDTH 20
 
 int main(){
   int           run;
   /* couleurs */
-  int           noir[]={0,0,0,0};
+  int           gris[]={80,80,80,0};
   int           blanc[]={255,255,255,0};
   /* reglage du nombre de frame (timer) */
   int           tps = 0, ticks = 0;
@@ -17,6 +15,8 @@ int main(){
   ElementSDL2 * score;
   /* information du joueur */
   Player * dataP;
+  /* information du menu */
+  Menu_D * dataM;
 
   /*init SDL2*/
   if(initAllSDL2(0)){
@@ -32,19 +32,6 @@ int main(){
     return -1;
   }
 
-  /* -- init objets partie menu -- */
-  /* fond du jeu */
-  createImage(0.f,30.f,WIDTH,HEIGHT,"ressources/horloge.png",MENU,20);
-  
-  /* titre */
-  createTexte(WIDTH/8.f,0,3*WIDTH/4.f,70,"ressources/CurlyStars.ttf","Run The Clock",noir,MENU,0);
-
-  /* aiguille */
-  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,296.f,A_WIDTH,190.f,"ressources/aiguille4.png",MENU,0);
-  setAngleElementSDL2(aiguille,180.f);
-  setRotationPointElementSDL2(aiguille,0.5f,0.175f);
-  setKeyPressElementSDL2(aiguille,
-  
   /* -- init objets partie jeu -- */
   /* fond du jeu */
   createImage(0.f,0.f,WIDTH,HEIGHT,"ressources/horloge.png",JEU,20);
@@ -62,11 +49,11 @@ int main(){
   dataP->run=1;
   setDataElementSDL2(joueur,dataP);
   setRotationPointElementSDL2(joueur,.5f,1.f+1.f*RAYON/P_WIDTH/1.1f);
-  setAngleElementSDL2(joueur,P_SPEED);
+  setAngleElementSDL2(joueur,30.f);
 
   /* score */
-  createBlock(0.f,HEIGHT,WIDTH,30.f,noir,JEU,20);
-  score=createTexte(WIDTH/8.f,HEIGHT,3*WIDTH/4.f,30,"ressources/arial.ttf","Score : 0                    ",blanc,JEU,0);
+  createBlock(0.f,HEIGHT,WIDTH,30.f,gris,JEU,20);
+  score=createTexte(WIDTH/8.f,HEIGHT,3*WIDTH/4.f,30,"ressources/CurlyStars.ttf","Score : 0                    ",blanc,JEU,0);
   addElementToElementSDL2(joueur,score);
 
   /* aiguille des heures */
@@ -90,6 +77,33 @@ int main(){
   addElementToElementSDL2(aiguille,joueur);
   addElementToElementSDL2(joueur,aiguille);
 
+  /* -- init objets partie menu -- */
+  /* fond du jeu */
+  createImage(0.f,30.f,WIDTH,HEIGHT,"ressources/horloge.png",MENU,20);
+  
+  /* titre */
+  createTexte(WIDTH/8.f,0,3*WIDTH/4.f,70,"ressources/CurlyStars.ttf","Run The Clock",gris,MENU,0);
+
+  /* "bouton" quitter */
+  createTexte(0.f,HEIGHT/2.f,70,60,"ressources/CurlyStars.ttf","Quit",gris,MENU,0);
+
+  /* "bouton" jouer */
+  createTexte(WIDTH-70.f,HEIGHT/2.f,70,60,"ressources/CurlyStars.ttf","Play",gris,MENU,0);
+  
+  /* aiguille */
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,296.f,A_WIDTH,190.f,"ressources/aiguille4.png",MENU,0);
+  setAngleElementSDL2(aiguille,180.f);
+  setRotationPointElementSDL2(aiguille,0.5f,0.175f);
+  setKeyPressElementSDL2(aiguille,click_menu);
+  setActionElementSDL2(aiguille,action_menu);
+  dataM=malloc(sizeof(*dataM));
+  dataM->run=&(dataP->run);
+  dataM->aim=0.f;
+  dataM->tourne=0;
+  dataM->speed=0.f;
+  dataM->dep=0.f;
+  setDataElementSDL2(aiguille,dataM);
+  
   while(dataP->run){
     tps = SDL_GetTicks();
     
