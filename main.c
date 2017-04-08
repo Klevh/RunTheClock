@@ -48,7 +48,7 @@ int main(){
   dataP->run=1;
   setDataElementSDL2(joueur,dataP);
   setRotationPointElementSDL2(joueur,.5f,1.f+1.f*RAYON/P_WIDTH/1.1f);
-  setRotationSpeedElementSDL2(joueur,1.f);
+  setRotationSpeedElementSDL2(joueur,P_SPEED);
   setAngleElementSDL2(joueur,1.f);
 
   /* score */
@@ -56,17 +56,32 @@ int main(){
   score=createTexte(WIDTH/8.f,HEIGHT,3*WIDTH/4.f,30,"ressources/arial.ttf","Score : 0                    ",blanc,JEU,0);
   addElementToElementSDL2(joueur,score);
 
-  /* aiguille des secondes */
-  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,261.f,A_WIDTH,270.f,"ressources/aiguille1.png",JEU,1);
+  /* aiguille des heures */
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,266.f,A_WIDTH,190.f,"ressources/aiguille3.png",JEU,1);
+  setRotationPointElementSDL2(aiguille,0.5f,0.175f);
+  setAngleElementSDL2(aiguille,90.f);
   addElementToElementSDL2(aiguille,joueur);
   addElementToElementSDL2(joueur,aiguille);
   
+  /* aiguille des minutes */
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,265.f,A_WIDTH,230.f,"ressources/aiguille2.png",JEU,1);
+  setRotationPointElementSDL2(aiguille,0.5f,0.155f);
+  setAngleElementSDL2(aiguille,180.f);
+  addElementToElementSDL2(aiguille,joueur);
+  addElementToElementSDL2(joueur,aiguille);
+  
+  /* aiguille des secondes */
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,261.f,A_WIDTH,270.f,"ressources/aiguille1.png",JEU,1);
+  setRotationPointElementSDL2(aiguille,0.5f,0.145f);
+  setAngleElementSDL2(aiguille,180.f);
+  addElementToElementSDL2(aiguille,joueur);
+  addElementToElementSDL2(joueur,aiguille);
+
   while(dataP->run){
     tps = SDL_GetTicks();
     
     run=!PollEventSDL2();
     dataP->run=run && dataP->run;
-    
     updateWindowSDL2();
     displayWindowSDL2();
 

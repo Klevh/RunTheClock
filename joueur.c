@@ -13,7 +13,8 @@ void action_player(ElementSDL2 *this){
   data=getDataElementSDL2(this);
   if(!data->newGame){
     getAngleElementSDL2(this,&a);
-    if(a==0){
+    if(a < P_SPEED || a > 360-P_SPEED){
+      nextIterateurElementSDL2(this);
       while((aiguille=nextIterateurElementSDL2(this))){
 	setRotationSpeedElementSDL2(aiguille,0.f);
 	setActionElementSDL2(aiguille,NULL);
@@ -33,10 +34,10 @@ void action_player(ElementSDL2 *this){
 	if(data->descente && data->time){
 	  data->time--;
 	}else{
-	  cs=cosf(-M_PI*a/180);
-	  sn=cosf(-M_PI*a/180);
+	  cs=cosf(-M_PI*(a-180)/180);
+	  sn=sinf(-M_PI*(a-180)/180);
 	  speed+=P_SPEED;
-	  moveElementSDL2(this,-speed*sn,speed*cs);
+	  moveElementSDL2(this,speed*cs,speed*sn);
 	  getCoordElementSDL2(this,NULL,&y);
 	  if(speed>=P_SPEED*21){
 	    bouge = 0;
@@ -52,11 +53,11 @@ void action_player(ElementSDL2 *this){
     speed=0;
     bouge=0;
     diff=0;
+    data->newGame=0;
     setActionElementSDL2(this,action_player);
     setKeyPressElementSDL2(this,click_player);
     aiguille=nextIterateurElementSDL2(this);
     setActionElementSDL2(aiguille,add_score);
-    setRotationPointElementSDL2(aiguille,0.5f,0.145f);
     setRotationSpeedElementSDL2(aiguille,1.f);
   }
 }
@@ -66,10 +67,17 @@ void click_player(ElementSDL2 * this,SDL_Keycode c){
   
   if(this){
     data=getDataElementSDL2(this);
-    if(data && c==32){
-      if(!data->up){
-	data->up=1;
-	data->time=10;
+    if(data){
+      switch(c){
+      case 32:
+	if(!data->up){
+	  data->up=1;
+	  data->time=10;
+	}
+	break;
+      case 27:
+	data->run=0;
+	break;
       }
     }
   }
@@ -115,6 +123,11 @@ void start_game(ElementSDL2 * this,SDL_Keycode c){
   case 32:
     setActionElementSDL2(this,action_player);
     setKeyPressElementSDL2(this,click_player);
+    initIterateurElementSDL2(this);
+    nextIterateurElementSDL2(this);
+    aiguille=nextIterateurElementSDL2(this);
+    setAngleElementSDL2(aiguille,180.f);
+    setRotationSpeedElementSDL2(aiguille,1.f);
     break;
   case 27:
     p->run=0;
