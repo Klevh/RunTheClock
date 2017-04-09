@@ -108,8 +108,8 @@ void action_player(ElementSDL2 *this){
 	    bouge = 0;
 	    data->up=0;
 	    data->descente=0;
+	    replaceElementSDL2(this,P_X,P_Y);
 	    speed=0;
-	    //replaceElementSDL2(this,P_X,P_Y);
 	    Mix_PlayChannel(1,data->son,0);
 	  }
 	}
