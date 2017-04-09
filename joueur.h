@@ -1,12 +1,9 @@
 #ifndef _RTC_PLAYER_BOU_AUBIN_KLEVH_
 #define _RTC_PLAYER_BOU_AUBIN_KLEVH_
 
-#include "SANDAL2/SANDAL2.h"
+#include "score.h"
 
 #define abs(a) (a<0?-a:a)
-
-#define JEU 1
-#define MENU 0
 
 #define RAYON 50
 
@@ -19,17 +16,19 @@
 #define P_X .5f*WIDTH-P_WIDTH*.5f
 #define P_Y HEIGHT/2.f-P_HEIGHT-RAYON+5
 
-#define A_SPEED_MAX 8
+#define A_SPEED_MAX 6
 #define A_WIDTH 20
 #define A_AIG 3
 
-typedef struct{
+typedef struct Player{
   int up;
   int time;
   int descente;
   int score;
   int newGame;
   int run;
+  Mix_Music * music;
+  Mix_Chunk * son;
 }Player;
 
 void action_player(ElementSDL2 * this);

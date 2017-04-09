@@ -6,10 +6,13 @@ void action_player(ElementSDL2 *this){
   static int aig=0;
   static int diff=0;
   Player * data;
+  Score_D * ds;
   float y,a;
   float cs,sn;
   ElementSDL2 * aiguille;
-  int i=0;
+  ElementSDL2 * eleScore;
+  int i=0,j;
+  char s[]="          ";
 
   initIterateurElementSDL2(this);
   data=getDataElementSDL2(this);
@@ -41,13 +44,48 @@ void action_player(ElementSDL2 *this){
   if(data->newGame>0){
     if(a < P_SPEED || a > 360-P_SPEED){
       nextIterateurElementSDL2(this);
-      while((aiguille=nextIterateurElementSDL2(this))){
+      i=0;
+      while(i<3 && (aiguille=nextIterateurElementSDL2(this))){
+	++i;
 	setRotationSpeedElementSDL2(aiguille,0.f);
 	setActionElementSDL2(aiguille,NULL);
       }
       setActionElementSDL2(this,NULL);
       setKeyPressElementSDL2(this,start_game);
       data->newGame=-60;
+      diff=0;
+      aiguille=nextIterateurElementSDL2(this);
+      eleScore=nextIterateurElementSDL2(aiguille);
+      ds=getDataElementSDL2(eleScore);
+      update_top_score(ds,data->score);
+      for(i=0;i<3;++i){
+	sprintf(s,"          ");
+	sprintf(s,"%d : %d",i+1,ds->scores[i]);
+	j=4;
+	while(s[++j]);
+	if(j<10){
+	  s[j]=' ';
+	}
+	setTextElementSDL2(eleScore,s);
+	eleScore=nextIterateurElementSDL2(aiguille);
+      }
+      initIterateurElementSDL2(aiguille);
+      data->score=0;
+      aig=0;
+      cs=cosf(M_PI*(a+90)/180);
+      sn=sinf(M_PI*(a+90)/180);
+      speed+=P_SPEED;
+      moveElementSDL2(this,speed*cs,speed*sn);
+      while(speed<P_SPEED*21){
+	speed+=P_SPEED;
+	moveElementSDL2(this,speed*cs,speed*sn);
+      }
+      bouge = 0;
+      data->up=0;
+      data->descente=0;
+      speed=0;
+      replaceElementSDL2(this,P_X,P_Y);
+      Mix_FadeOutMusic(500);
     }else{
       if(data->up){
 	if(data->up==1){
@@ -72,6 +110,7 @@ void action_player(ElementSDL2 *this){
 	    data->descente=0;
 	    speed=0;
 	    replaceElementSDL2(this,P_X,P_Y);
+	    Mix_PlayChannel(1,data->son,0);
 	  }
 	}
       }
@@ -108,6 +147,7 @@ void click_player(ElementSDL2 * this,SDL_Keycode c){
 	break;
       case 27:
 	changeDisplayWindowSDL2(MENU);
+	Mix_FadeOutMusic(500);
 	break;
       }
     }
@@ -133,7 +173,7 @@ void add_score(ElementSDL2 * this){
   Player * data;
   float x1,y1,x2,y2,tmp,px,py,cs,sn;
   int w1,h1,w2,h2;
-  int touche=1;
+  int touche=0;
   
   initIterateurElementSDL2(this);
   getAngleElementSDL2(this,&a1);
@@ -158,14 +198,15 @@ void add_score(ElementSDL2 * this){
     y2=py+(x2-px)*sn+(y2-py)*cs;
     x2=tmp;
 
-    if(y2<HEIGHT/2.f-RAYON && x2+.5f*w2>=x1 && x2<=x1+w1){
+    if(y2<HEIGHT/2.f-RAYON && x2+.5f*w2>x1 && x2<x1+w1){
       getRotationSpeedElementSDL2(this,&a);
+      printf("%f\n",a);
       addAngleElementSDL2(p,a);
     }else{
-      touche=0;
+      touche=1;
     }
   }else{
-    touche=0;
+    touche=1;
   }
 
   if(touche){
@@ -181,18 +222,22 @@ void add_score(ElementSDL2 * this){
 
 void start_game(ElementSDL2 * this,SDL_Keycode c){
   ElementSDL2 * aiguille;
-  
+  Player * p;
+
   switch(c){
   case 32:
+    p=getDataElementSDL2(this);
+    p->score=-1;
     setActionElementSDL2(this,action_player);
     setKeyPressElementSDL2(this,click_player);
     initIterateurElementSDL2(this);
-    nextIterateurElementSDL2(this);
+    update_score(nextIterateurElementSDL2(this),0);
     aiguille=nextIterateurElementSDL2(this);
     setAngleElementSDL2(this,30.f);
     setAngleElementSDL2(aiguille,75.f);
     setRotationSpeedElementSDL2(aiguille,1.f);
     setActionElementSDL2(aiguille,add_score);
+    Mix_PlayMusic(p->music,-1);
     break;
   case 27:
     changeDisplayWindowSDL2(MENU);

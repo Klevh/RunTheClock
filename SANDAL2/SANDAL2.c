@@ -6,7 +6,7 @@
 int initAllSDL2(int imageFlags){
   int failedInit=0;
 
-  if(SDL_Init(SDL_INIT_VIDEO) == -1){
+  if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) == -1){
     failedInit=1;
   }else if(TTF_Init()){
     SDL_Quit();

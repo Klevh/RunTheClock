@@ -8,6 +8,9 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
   switch(c){
   case 79:
   case 94:
+    if(a!=270.f){
+      Mix_PlayChannel(2,m->son,0);
+    }
     if(a>=90.f && a<270.f){
       m->speed=270.f-a;
       m->tourne=1;
@@ -23,6 +26,9 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
     break;
   case 92:
   case 80:
+    if(a!=90.f){
+      Mix_PlayChannel(2,m->son,0);
+    }
     if(a<90.f){
       m->speed=90.f-a;
       m->tourne=1;
@@ -37,6 +43,9 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
     m->aim=90.f;
     break;
   case 96:
+    if(a!=180.f){
+      Mix_PlayChannel(2,m->son,0);
+    }
     if(a<180.f){
       m->speed=180.f-a;
       m->tourne=1;
@@ -50,6 +59,9 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
     break;
   case 90:
   case 81:
+    if(a!=0.f){
+      Mix_PlayChannel(2,m->son,0);
+    }
     if(a>180.f){
       m->speed=360.f-a;
       m->tourne=1;
@@ -66,6 +78,8 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
       changeDisplayWindowSDL2(JEU);
     }else if(m->aim==90.f){
       *(m->run)=0;
+    }else if(m->aim==0.f){
+      changeDisplayWindowSDL2(SCORE);
     }
     break;
   case 27:

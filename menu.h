@@ -3,7 +3,7 @@
 
 #include "joueur.h"
 
-#define F_SPEED 60.f
+#define F_SPEED 90.f
 
 typedef struct{
   int * run;
@@ -11,6 +11,7 @@ typedef struct{
   float speed;
   float dep;
   int tourne;
+  Mix_Chunk * son;
 }Menu_D;
   
 void click_menu(ElementSDL2 * this,SDL_Keycode c);
