@@ -104,12 +104,12 @@ void action_player(ElementSDL2 *this){
 	  speed+=P_SPEED;
 	  moveElementSDL2(this,speed*cs,speed*sn);
 	  getCoordElementSDL2(this,NULL,&y);
-	  if(speed>=P_SPEED*21){
+	  if(speed>=P_SPEED*20){
 	    bouge = 0;
 	    data->up=0;
 	    data->descente=0;
 	    speed=0;
-	    replaceElementSDL2(this,P_X,P_Y);
+	    //replaceElementSDL2(this,P_X,P_Y);
 	    Mix_PlayChannel(1,data->son,0);
 	  }
 	}
@@ -200,7 +200,6 @@ void add_score(ElementSDL2 * this){
 
     if(y2<HEIGHT/2.f-RAYON && x2+.5f*w2>x1 && x2<x1+w1){
       getRotationSpeedElementSDL2(this,&a);
-      printf("%f\n",a);
       addAngleElementSDL2(p,a);
     }else{
       touche=1;
