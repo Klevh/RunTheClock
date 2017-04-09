@@ -1,11 +1,10 @@
 #include "menu.h"
 
-#define A_WIDTH 20
-
 int main(){
   int           run;
   /* couleurs */
-  int           gris[]={80,80,80,0};
+  int           noir[]={0,0,0,0};
+  int           rouge[]={120,0,0,0};
   int           blanc[]={255,255,255,0};
   /* reglage du nombre de frame (timer) */
   int           tps = 0, ticks = 0;
@@ -25,7 +24,7 @@ int main(){
   }
 
   /* init Fenetre */
-  initWindowSDL2(WIDTH,HEIGHT+30,"Run The Clock",IMG_INIT_PNG,blanc,JEU);
+  initWindowSDL2(WIDTH,HEIGHT+60,"Run The Clock",IMG_INIT_PNG,blanc,MENU);
   if(initIteratorWindowSDL2()){
     fprintf(stderr,"Erreur de creation de la fenetre\n");
     closeAllSDL2();
@@ -34,7 +33,8 @@ int main(){
 
   /* -- init objets partie jeu -- */
   /* fond du jeu */
-  createImage(0.f,0.f,WIDTH,HEIGHT,"ressources/horloge.png",JEU,20);
+  createBlock(HEIGHT/2.f-10,5.f,20,HEIGHT/2.f,rouge,JEU,30);
+  createImage(-20.f,-20.f,WIDTH+40,HEIGHT+40,"ressources/horloge2.png",JEU,20);
   createImage(WIDTH/2.f-RAYON,HEIGHT/2.f-RAYON,2*RAYON,2*RAYON,"ressources/centre.png",JEU,20);
 
   /* joueur */
@@ -52,48 +52,48 @@ int main(){
   setAngleElementSDL2(joueur,30.f);
 
   /* score */
-  createBlock(0.f,HEIGHT,WIDTH,30.f,gris,JEU,20);
-  score=createTexte(WIDTH/8.f,HEIGHT,3*WIDTH/4.f,30,"ressources/CurlyStars.ttf","Score : 0                    ",blanc,JEU,0);
+  createImage(0.f,HEIGHT,WIDTH,60.f,"ressources/bande.png",JEU,20);
+  score=createTexte(WIDTH/8.f,HEIGHT+15,3*WIDTH/4.f,30,"ressources/alarm_clock.ttf","SCORE : 0                 ",noir,JEU,0);
   addElementToElementSDL2(joueur,score);
 
   /* aiguille des heures */
-  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,266.f,A_WIDTH,190.f,"ressources/aiguille3.png",JEU,1);
-  setRotationPointElementSDL2(aiguille,0.5f,0.175f);
-  setAngleElementSDL2(aiguille,180.f);
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,144.f,A_WIDTH,190.f,"ressources/aiguille3.png",JEU,1);
+  setRotationPointElementSDL2(aiguille,0.5f,0.825f);
   addElementToElementSDL2(aiguille,joueur);
   addElementToElementSDL2(joueur,aiguille);
   
   /* aiguille des minutes */
-  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,265.f,A_WIDTH,230.f,"ressources/aiguille2.png",JEU,1);
-  setRotationPointElementSDL2(aiguille,0.5f,0.155f);
-  setAngleElementSDL2(aiguille,180.f);
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,106.f,A_WIDTH,230.f,"ressources/aiguille2.png",JEU,1);
+  setRotationPointElementSDL2(aiguille,0.5f,0.845f);
   addElementToElementSDL2(aiguille,joueur);
   addElementToElementSDL2(joueur,aiguille);
   
   /* aiguille des secondes */
-  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,261.f,A_WIDTH,270.f,"ressources/aiguille1.png",JEU,1);
-  setRotationPointElementSDL2(aiguille,0.5f,0.145f);
-  setAngleElementSDL2(aiguille,180.f);
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,69.f,A_WIDTH,270.f,"ressources/aiguille1.png",JEU,1);
+  setRotationPointElementSDL2(aiguille,0.5f,0.855f);
   addElementToElementSDL2(aiguille,joueur);
   addElementToElementSDL2(joueur,aiguille);
 
   /* -- init objets partie menu -- */
   /* fond du jeu */
-  createImage(0.f,30.f,WIDTH,HEIGHT,"ressources/horloge.png",MENU,20);
+  createImage(-20.f,10.f,WIDTH+40.f,HEIGHT+40.f,"ressources/horloge2.png",MENU,20);
   
   /* titre */
-  createTexte(WIDTH/8.f,0,3*WIDTH/4.f,70,"ressources/CurlyStars.ttf","Run The Clock",gris,MENU,0);
+  //createImage(WIDTH/8.f,0,3*WIDTH/4.f,70,"ressources/titre.png",MENU,0);
+  createImage(WIDTH/6.f,115,2*WIDTH/3.f,150,"ressources/titre.png",MENU,0);
 
   /* "bouton" quitter */
-  createTexte(0.f,HEIGHT/2.f,70,60,"ressources/CurlyStars.ttf","Quit",gris,MENU,0);
+  createTexte(10.f,HEIGHT/2.f,70,60,"ressources/CurlyStars.ttf","Quit",noir,MENU,0);
+  createBlock(30.f,HEIGHT/2.f+10.f,40.f,40.f,blanc,MENU,19);
 
   /* "bouton" jouer */
-  createTexte(WIDTH-70.f,HEIGHT/2.f,70,60,"ressources/CurlyStars.ttf","Play",gris,MENU,0);
+  createTexte(WIDTH-80.f,HEIGHT/2.f,70,60,"ressources/CurlyStars.ttf","Play",noir,MENU,0);
+  createBlock(WIDTH-70.f,HEIGHT/2.f+10.f,40.f,40.f,blanc,MENU,19);
   
   /* aiguille */
-  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*1.f/2,296.f,A_WIDTH,190.f,"ressources/aiguille4.png",MENU,0);
+  aiguille=createImage(WIDTH*1.f/2-A_WIDTH*2,307.f,A_WIDTH*4,190.f,"ressources/aiguille4.png",MENU,0);
   setAngleElementSDL2(aiguille,180.f);
-  setRotationPointElementSDL2(aiguille,0.5f,0.175f);
+  setRotationPointElementSDL2(aiguille,0.49f,0.108f);
   setKeyPressElementSDL2(aiguille,click_menu);
   setActionElementSDL2(aiguille,action_menu);
   dataM=malloc(sizeof(*dataM));
