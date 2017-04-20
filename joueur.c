@@ -187,22 +187,24 @@ void add_score(ElementSDL2 * this){
   getRotationPointElementSDL2(p,&px,&py);
   if(y2+h2>=y1){
     a=a1-a2;
-     
-    px=px*w2+x2;
-    py=py*h2+y2;
+    if(a>-25.f){
+      px=px*w2+x2;
+      py=py*h2+y2;
 
-    cs=cosf(-M_PI*a/180);
-    sn=sinf(-M_PI*a/180);
+      cs=cosf(-M_PI*a/180);
+      sn=sinf(-M_PI*a/180);
 
-    tmp=px+(x2-px)*cs-(y2-py)*sn;
-    y2=py+(x2-px)*sn+(y2-py)*cs;
-    x2=tmp;
+      tmp=px+(x2-px)*cs-(y2-py)*sn;
+      y2=py+(x2-px)*sn+(y2-py)*cs;
+      x2=tmp;
 
-    if(y2<HEIGHT/2.f-RAYON && x2+.5f*w2>x1 && x2<x1+w1){
-      getRotationSpeedElementSDL2(this,&a);
-      addAngleElementSDL2(p,a);
-    }else{
-      touche=1;
+      if(y2<HEIGHT/2.f-RAYON && x2+.3f*w2>x1 && x2<x1+w1){
+	getRotationSpeedElementSDL2(this,&a);
+	printf("1\n");
+	addAngleElementSDL2(p,a);
+      }else{
+	touche=1;
+      }
     }
   }else{
     touche=1;

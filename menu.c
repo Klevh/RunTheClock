@@ -3,7 +3,7 @@
 void click_menu(ElementSDL2 * this,SDL_Keycode c){
   Menu_D * m=getDataElementSDL2(this);
   float a;
-
+  
   getAngleElementSDL2(this,&a);
   switch(c){
   case 79:
@@ -13,12 +13,10 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
     }
     if(a>=90.f && a<270.f){
       m->speed=270.f-a;
-      m->tourne=1;
     }else if(a>=270.f){
-      m->speed=a-270.f;
+      m->speed=270.f-a;
     }else{
       m->speed=-a-90.f;
-      m->tourne=-1;
     }
     m->dep=abs(m->speed);
     m->speed/=F_SPEED;
@@ -31,12 +29,10 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
     }
     if(a<90.f){
       m->speed=90.f-a;
-      m->tourne=1;
     }else if(a>270.f){
       m->speed=360.f-a+90.f;
     }else{
       m->speed=90.f-a;
-      m->tourne=-1;
     }
     m->dep=abs(m->speed);
     m->speed/=F_SPEED;
@@ -46,13 +42,7 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
     if(a!=180.f){
       Mix_PlayChannel(2,m->son,0);
     }
-    if(a<180.f){
-      m->speed=180.f-a;
-      m->tourne=1;
-    }else{
-      m->speed=180.f-a;
-      m->tourne=-1;
-    }
+    m->speed=180.f-a;
     m->dep=abs(m->speed);
     m->speed/=F_SPEED;
     m->aim=180.f;
@@ -64,10 +54,8 @@ void click_menu(ElementSDL2 * this,SDL_Keycode c){
     }
     if(a>180.f){
       m->speed=360.f-a;
-      m->tourne=1;
     }else{
       m->speed=-a;
-      m->tourne=-1;
     }
     m->dep=abs(m->speed);
     m->speed/=F_SPEED;
@@ -92,7 +80,7 @@ void action_menu(ElementSDL2 * this){
   Menu_D * m=getDataElementSDL2(this);
   float a;
   
-  if(m->tourne){
+  if(m->dep){
     m->dep-=abs(m->speed);
     addAngleElementSDL2(this,m->speed);
     getAngleElementSDL2(this,&a);
@@ -103,7 +91,7 @@ void action_menu(ElementSDL2 * this){
       a-=360.f;
     }
     if(m->dep<=0.f){
-      m->tourne=0;
+      m->dep=0.f;
       a=m->aim;
     }
     setAngleElementSDL2(this,a);

@@ -3,19 +3,17 @@
 void update_top_score(Score_D * scores, int s){
   int i=0,j;
 
-  printf("\n %d | %d | %d\n",scores->scores[0],scores->scores[1],scores->scores[2]);
-  while(i<3 && scores->scores[i]>=s){
-    ++i;
-  }
-  if(i<3){
-    for(j=2;j>i;++j){
-      printf("%d - ",scores->scores[j]);
-      scores->scores[j]=scores->scores[j-1];
-      printf("%d - %d\n",scores->scores[j],j);
+  if(scores){
+    while(i<3 && scores->scores[i]>=s){
+      ++i;
     }
-    scores->scores[i]=s;
+    if(i<3){
+      for(j=2;j>i;--j){
+	scores->scores[j]=scores->scores[j-1];
+      }
+      scores->scores[i]=s;
+    }
   }
-  printf("\n %d | %d | %d\n",scores->scores[0],scores->scores[1],scores->scores[2]);
 }
 
 Score_D * load_score(char * file){
